@@ -1,0 +1,6 @@
+framework module ALWlibwebp {
+  umbrella header "ALWlibwebp-umbrella.h"
+
+  export *
+  module * { export * }
+}

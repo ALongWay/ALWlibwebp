@@ -1,0 +1,42 @@
+{
+  "name": "ALWlibwebp",
+  "version": "0.1.0",
+  "summary": "The libwebp of google.",
+  "homepage": "https://github.com/ALongWay/ALWlibwebp",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "lisong": "370381830@qq.com"
+  },
+  "source": {
+    "git": "https://github.com/ALongWay/ALWlibwebp.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "subspecs": [
+    {
+      "name": "dec",
+      "source_files": "ALWlibwebp/Classes/src/dec/*.{h,c}"
+    },
+    {
+      "name": "demux",
+      "source_files": "ALWlibwebp/Classes/src/demux/*.{h,c}"
+    },
+    {
+      "name": "dsp",
+      "source_files": "ALWlibwebp/Classes/src/dsp/*.{h,c}"
+    },
+    {
+      "name": "utils",
+      "source_files": "ALWlibwebp/Classes/src/utils/*.{h,c}"
+    },
+    {
+      "name": "webp",
+      "source_files": "ALWlibwebp/Classes/src/webp/*.{h,c}"
+    }
+  ]
+}

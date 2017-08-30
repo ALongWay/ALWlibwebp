@@ -1,0 +1,6 @@
+framework module Pods_ALWlibwebp_Example {
+  umbrella header "Pods-ALWlibwebp_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

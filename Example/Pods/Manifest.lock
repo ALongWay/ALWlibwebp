@@ -1,0 +1,26 @@
+PODS:
+  - ALWlibwebp (0.1.0):
+    - ALWlibwebp/dec (= 0.1.0)
+    - ALWlibwebp/demux (= 0.1.0)
+    - ALWlibwebp/dsp (= 0.1.0)
+    - ALWlibwebp/utils (= 0.1.0)
+    - ALWlibwebp/webp (= 0.1.0)
+  - ALWlibwebp/dec (0.1.0)
+  - ALWlibwebp/demux (0.1.0)
+  - ALWlibwebp/dsp (0.1.0)
+  - ALWlibwebp/utils (0.1.0)
+  - ALWlibwebp/webp (0.1.0)
+
+DEPENDENCIES:
+  - ALWlibwebp (from `../`)
+
+EXTERNAL SOURCES:
+  ALWlibwebp:
+    :path: ../
+
+SPEC CHECKSUMS:
+  ALWlibwebp: f46358959ab106331ff9693697c3a3ae9678e882
+
+PODFILE CHECKSUM: 555e702447e12ed1e6693f23adf1f1196486148d
+
+COCOAPODS: 1.3.1
