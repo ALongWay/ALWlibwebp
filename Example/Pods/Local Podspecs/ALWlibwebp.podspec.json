@@ -1,7 +1,7 @@
 {
   "name": "ALWlibwebp",
   "version": "0.1.0",
-  "summary": "The libwebp of google.",
+  "summary": "The libwebp of Google. Version is 0.6.0 .",
   "homepage": "https://github.com/ALongWay/ALWlibwebp",
   "license": {
     "type": "MIT",
@@ -17,26 +17,76 @@
   "platforms": {
     "ios": "8.0"
   },
+  "compiler_flags": "-D_THREAD_SAFE",
+  "requires_arc": false,
   "subspecs": [
     {
-      "name": "dec",
-      "source_files": "ALWlibwebp/Classes/src/dec/*.{h,c}"
+      "name": "webp",
+      "source_files": "ALWlibwebp/Classes/src/webp/*.h"
     },
     {
-      "name": "demux",
-      "source_files": "ALWlibwebp/Classes/src/demux/*.{h,c}"
-    },
-    {
-      "name": "dsp",
-      "source_files": "ALWlibwebp/Classes/src/dsp/*.{h,c}"
+      "name": "core",
+      "source_files": [
+        "ALWlibwebp/Classes/src/utils/*.{h,c}",
+        "ALWlibwebp/Classes/src/dsp/*.{h,c}",
+        "ALWlibwebp/Classes/src/enc/*.{h,c}",
+        "ALWlibwebp/Classes/src/dec/*.{h,c}"
+      ],
+      "dependencies": {
+        "ALWlibwebp/webp": [
+
+        ]
+      }
     },
     {
       "name": "utils",
-      "source_files": "ALWlibwebp/Classes/src/utils/*.{h,c}"
+      "dependencies": {
+        "ALWlibwebp/core": [
+
+        ]
+      }
     },
     {
-      "name": "webp",
-      "source_files": "ALWlibwebp/Classes/src/webp/*.{h,c}"
+      "name": "dsp",
+      "dependencies": {
+        "ALWlibwebp/core": [
+
+        ]
+      }
+    },
+    {
+      "name": "enc",
+      "dependencies": {
+        "ALWlibwebp/core": [
+
+        ]
+      }
+    },
+    {
+      "name": "dec",
+      "dependencies": {
+        "ALWlibwebp/core": [
+
+        ]
+      }
+    },
+    {
+      "name": "demux",
+      "source_files": "ALWlibwebp/Classes/src/demux/*.{h,c}",
+      "dependencies": {
+        "ALWlibwebp/core": [
+
+        ]
+      }
+    },
+    {
+      "name": "mux",
+      "source_files": "ALWlibwebp/Classes/src/mux/*.{h,c}",
+      "dependencies": {
+        "ALWlibwebp/core": [
+
+        ]
+      }
     }
   ]
 }

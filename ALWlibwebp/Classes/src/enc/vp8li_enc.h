@@ -27,16 +27,24 @@ extern "C" {
 // maximum value of transform_bits_ in VP8LEncoder.
 #define MAX_TRANSFORM_BITS 6
 
+typedef enum {
+  kEncoderNone = 0,
+  kEncoderARGB,
+  kEncoderNearLossless,
+  kEncoderPalette
+} VP8LEncoderARGBContent;
+
 typedef struct {
   const WebPConfig* config_;      // user configuration and parameters
   const WebPPicture* pic_;        // input picture.
 
-  uint32_t* argb_;                // Transformed argb image data.
-  uint32_t* argb_scratch_;        // Scratch memory for argb rows
-                                  // (used for prediction).
-  uint32_t* transform_data_;      // Scratch memory for transform data.
-  uint32_t* transform_mem_;       // Currently allocated memory.
-  size_t    transform_mem_size_;  // Currently allocated memory size.
+  uint32_t* argb_;                       // Transformed argb image data.
+  VP8LEncoderARGBContent argb_content_;  // Content type of the argb buffer.
+  uint32_t* argb_scratch_;               // Scratch memory for argb rows
+                                         // (used for prediction).
+  uint32_t* transform_data_;             // Scratch memory for transform data.
+  uint32_t* transform_mem_;              // Currently allocated memory.
+  size_t    transform_mem_size_;         // Currently allocated memory size.
 
   int       current_width_;       // Corresponds to packed image width.
 
@@ -54,8 +62,7 @@ typedef struct {
   uint32_t palette_[MAX_PALETTE_SIZE];
 
   // Some 'scratch' (potentially large) objects.
-  struct VP8LBackwardRefs refs_[2];  // Backward Refs array corresponding to
-                                     // LZ77 & RLE coding.
+  struct VP8LBackwardRefs refs_[3];  // Backward Refs array for temporaries.
   VP8LHashChain hash_chain_;         // HashChain data for constructing
                                      // backward references.
 } VP8LEncoder;
@@ -74,6 +81,11 @@ int VP8LEncodeImage(const WebPConfig* const config,
 WebPEncodingError VP8LEncodeStream(const WebPConfig* const config,
                                    const WebPPicture* const picture,
                                    VP8LBitWriter* const bw, int use_cache);
+
+// in near_lossless.c
+// Near lossless preprocessing in RGB color-space.
+int VP8ApplyNearLossless(const WebPPicture* const picture, int quality,
+                         uint32_t* const argb_dst);
 
 //------------------------------------------------------------------------------
 // Image transforms in predictor.c.

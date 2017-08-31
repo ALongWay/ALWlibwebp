@@ -152,6 +152,8 @@ static int DumpFrame(const char filename[], const char dump_folder[],
   FILE* f = NULL;
   const char* row;
 
+  if (dump_folder == NULL) dump_folder = ".";
+
   base_name = strrchr(filename, '/');
   base_name = (base_name == NULL) ? filename : base_name + 1;
   max_len = strlen(dump_folder) + 1 + strlen(base_name)
@@ -200,7 +202,7 @@ static int IsWebP(const WebPData* const webp_data) {
   return (WebPGetInfo(webp_data->bytes, webp_data->size, NULL, NULL) != 0);
 }
 
-// Read animated WebP bitstream 'file_str' into 'AnimatedImage' struct.
+// Read animated WebP bitstream 'webp_data' into 'AnimatedImage' struct.
 static int ReadAnimatedWebP(const char filename[],
                             const WebPData* const webp_data,
                             AnimatedImage* const image, int dump_frames,

@@ -42,6 +42,9 @@ extern "C" {
 # define __has_builtin(x) 0
 #endif
 
+// for now, none of the optimizations below are available in emscripten
+#if !defined(EMSCRIPTEN)
+
 #if defined(_MSC_VER) && _MSC_VER > 1310 && \
     (defined(_M_X64) || defined(_M_IX86))
 #define WEBP_MSC_SSE2  // Visual C++ SSE2 targets
@@ -68,15 +71,17 @@ extern "C" {
 #define WEBP_USE_AVX2
 #endif
 
-#if defined(__ANDROID__) && defined(__ARM_ARCH_7A__)
-#define WEBP_ANDROID_NEON  // Android targets that might support NEON
-#endif
-
 // The intrinsics currently cause compiler errors with arm-nacl-gcc and the
 // inline assembly would need to be modified for use with Native Client.
-#if (defined(__ARM_NEON__) || defined(WEBP_ANDROID_NEON) || \
+#if (defined(__ARM_NEON__) || \
      defined(__aarch64__) || defined(WEBP_HAVE_NEON)) && \
     !defined(__native_client__)
+#define WEBP_USE_NEON
+#endif
+
+#if !defined(WEBP_USE_NEON) && defined(__ANDROID__) && \
+    defined(__ARM_ARCH_7A__) && defined(HAVE_CPU_FEATURES_H)
+#define WEBP_ANDROID_NEON  // Android targets that may have NEON
 #define WEBP_USE_NEON
 #endif
 
@@ -90,7 +95,7 @@ extern "C" {
 #define WEBP_USE_MIPS32
 #if (__mips_isa_rev >= 2)
 #define WEBP_USE_MIPS32_R2
-#if defined(__mips_dspr2) || (__mips_dsp_rev >= 2)
+#if defined(__mips_dspr2) || (defined(__mips_dsp_rev) && __mips_dsp_rev >= 2)
 #define WEBP_USE_MIPS_DSP_R2
 #endif
 #endif
@@ -99,6 +104,8 @@ extern "C" {
 #if defined(__mips_msa) && defined(__mips_isa_rev) && (__mips_isa_rev >= 5)
 #define WEBP_USE_MSA
 #endif
+
+#endif  /* EMSCRIPTEN */
 
 // This macro prevents thread_sanitizer from reporting known concurrent writes.
 #define WEBP_TSAN_IGNORE_FUNCTION
@@ -129,6 +136,11 @@ extern "C" {
 #endif
 #endif
 
+// Regularize the definition of WEBP_SWAP_16BIT_CSP (backward compatibility)
+#if !defined(WEBP_SWAP_16BIT_CSP)
+#define WEBP_SWAP_16BIT_CSP 0
+#endif
+
 typedef enum {
   kSSE2,
   kSSE3,
@@ -143,7 +155,7 @@ typedef enum {
 } CPUFeature;
 // returns true if the CPU supports the feature.
 typedef int (*VP8CPUInfo)(CPUFeature feature);
-WEBP_EXTERN(VP8CPUInfo) VP8GetCPUInfo;
+WEBP_EXTERN VP8CPUInfo VP8GetCPUInfo;
 
 //------------------------------------------------------------------------------
 // Init stub generator
@@ -462,12 +474,12 @@ extern WebPRescalerExportRowFunc WebPRescalerExportRowExpand;
 extern WebPRescalerExportRowFunc WebPRescalerExportRowShrink;
 
 // Plain-C implementation, as fall-back.
-extern void WebPRescalerImportRowExpandC(struct WebPRescaler* const wrk,
-                                         const uint8_t* src);
-extern void WebPRescalerImportRowShrinkC(struct WebPRescaler* const wrk,
-                                         const uint8_t* src);
-extern void WebPRescalerExportRowExpandC(struct WebPRescaler* const wrk);
-extern void WebPRescalerExportRowShrinkC(struct WebPRescaler* const wrk);
+extern void WebPRescalerImportRowExpand_C(struct WebPRescaler* const wrk,
+                                          const uint8_t* src);
+extern void WebPRescalerImportRowShrink_C(struct WebPRescaler* const wrk,
+                                          const uint8_t* src);
+extern void WebPRescalerExportRowExpand_C(struct WebPRescaler* const wrk);
+extern void WebPRescalerExportRowShrink_C(struct WebPRescaler* const wrk);
 
 // Main entry calls:
 extern void WebPRescalerImportRow(struct WebPRescaler* const wrk,
@@ -533,24 +545,16 @@ void WebPMultRows(uint8_t* ptr, int stride,
                   int width, int num_rows, int inverse);
 
 // Plain-C versions, used as fallback by some implementations.
-void WebPMultRowC(uint8_t* const ptr, const uint8_t* const alpha,
-                  int width, int inverse);
-void WebPMultARGBRowC(uint32_t* const ptr, int width, int inverse);
+void WebPMultRow_C(uint8_t* const ptr, const uint8_t* const alpha,
+                   int width, int inverse);
+void WebPMultARGBRow_C(uint32_t* const ptr, int width, int inverse);
+
+// RGB packing function. 'step' can be 3 or 4. r/g/b input is rgb or bgr order.
+extern void (*WebPPackRGB)(const uint8_t* r, const uint8_t* g, const uint8_t* b,
+                           int len, int step, uint32_t* out);
 
 // To be called first before using the above.
 void WebPInitAlphaProcessing(void);
-
-// ARGB packing function: a/r/g/b input is rgba or bgra order.
-extern void (*VP8PackARGB)(const uint8_t* a, const uint8_t* r,
-                           const uint8_t* g, const uint8_t* b, int len,
-                           uint32_t* out);
-
-// RGB packing function. 'step' can be 3 or 4. r/g/b input is rgb or bgr order.
-extern void (*VP8PackRGB)(const uint8_t* r, const uint8_t* g, const uint8_t* b,
-                          int len, int step, uint32_t* out);
-
-// To be called first before using the above.
-void VP8EncDspARGBInit(void);
 
 //------------------------------------------------------------------------------
 // Filter functions

@@ -11,12 +11,21 @@ ifeq ($(APP_OPTIM),release)
   endif
 endif
 
+# mips32 fails to build with clang from r14b
+# https://bugs.chromium.org/p/webp/issues/detail?id=343
+ifeq ($(findstring clang,$(NDK_TOOLCHAIN_VERSION)),clang)
+  ifeq ($(TARGET_ARCH),mips)
+    WEBP_CFLAGS += -no-integrated-as
+  endif
+endif
+
 ifneq ($(findstring armeabi-v7a, $(TARGET_ARCH_ABI)),)
   # Setting LOCAL_ARM_NEON will enable -mfpu=neon which may cause illegal
   # instructions to be generated for armv7a code. Instead target the neon code
   # specifically.
   NEON := c.neon
   USE_CPUFEATURES := yes
+  WEBP_CFLAGS += -DHAVE_CPU_FEATURES_H
 else
   NEON := c
 endif
@@ -43,9 +52,6 @@ dsp_dec_srcs := \
     src/dsp/alpha_processing_neon.$(NEON) \
     src/dsp/alpha_processing_sse2.c \
     src/dsp/alpha_processing_sse41.c \
-    src/dsp/argb.c \
-    src/dsp/argb_mips_dsp_r2.c \
-    src/dsp/argb_sse2.c \
     src/dsp/cpu.c \
     src/dsp/dec.c \
     src/dsp/dec_clip_tables.c \
@@ -79,6 +85,7 @@ dsp_dec_srcs := \
     src/dsp/yuv.c \
     src/dsp/yuv_mips32.c \
     src/dsp/yuv_mips_dsp_r2.c \
+    src/dsp/yuv_neon.$(NEON) \
     src/dsp/yuv_sse2.c \
 
 dsp_enc_srcs := \
@@ -101,10 +108,13 @@ dsp_enc_srcs := \
     src/dsp/lossless_enc_neon.$(NEON) \
     src/dsp/lossless_enc_sse2.c \
     src/dsp/lossless_enc_sse41.c \
+    src/dsp/ssim.c \
+    src/dsp/ssim_sse2.c \
 
 enc_srcs := \
     src/enc/alpha_enc.c \
     src/enc/analysis_enc.c \
+    src/enc/backward_references_cost_enc.c \
     src/enc/backward_references_enc.c \
     src/enc/config_enc.c \
     src/enc/cost_enc.c \
