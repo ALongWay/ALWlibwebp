@@ -14,6 +14,7 @@ Pod::Spec.new do |s|
   s.requires_arc = false
 
   s.subspec 'webp' do |ss|
+    ss.header_dir = 'webp'
     ss.source_files = 'ALWlibwebp/Classes/src/webp/*.h'
   end
 
