@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'ALWlibwebp'
-  s.version          = '0.1.2'
+  s.version          = '0.1.3'
   s.summary          = 'The libwebp of Google. Version is 0.6.0 .'
 
   s.homepage         = 'https://github.com/ALongWay/ALWlibwebp'
@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.author           = { 'lisong' => '370381830@qq.com' }
   s.source           = { :git => 'https://github.com/ALongWay/ALWlibwebp.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '7.0'
 
   s.subspec 'Decoder' do |ss|
     ss.source_files = 'ALWlibwebp/Classes/Decoder/*.{h,m}'

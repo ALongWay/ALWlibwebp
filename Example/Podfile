@@ -2,7 +2,7 @@ use_frameworks!
 
 target 'ALWlibwebp_Example' do
   pod 'ALWlibwebp', :path => '../'
-
+#  pod 'ALWlibwebp'
   target 'ALWlibwebp_Tests' do
     inherit! :search_paths
 
