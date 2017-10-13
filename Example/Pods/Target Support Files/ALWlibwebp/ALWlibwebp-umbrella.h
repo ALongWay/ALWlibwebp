@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "ALWWebPDecoder.h"
 #import "bit_reader_inl_utils.h"
 #import "bit_reader_utils.h"
 #import "bit_writer_utils.h"

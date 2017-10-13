@@ -7,6 +7,7 @@
 //
 
 #import "ALWViewController.h"
+#import "ALWWebPDecoder.h"
 
 @interface ALWViewController ()
 
@@ -18,6 +19,27 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"test6" ofType:@"webp"];
+    NSData *data = [NSData dataWithContentsOfFile:path];
+    
+    UIImage *image = [ALWWebPDecoder imageWithWebPData:data];
+    UIImage *image1 = [ALWWebPDecoder imageNotScaledWithWebPData:data];
+    UIImage *image2 = [ALWWebPDecoder imageWithNotScaledWebPImage:image1];
+    
+    NSLog(@"image: %@", image);
+    NSLog(@"image1: %@", image1);
+    NSLog(@"image2: %@", image2);
+    
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    [self.view addSubview:scrollView];
+    
+    UIImageView *iv = [[UIImageView alloc] initWithFrame:scrollView.bounds];
+    [iv setImage:image];
+    [iv setContentMode:UIViewContentModeScaleAspectFit];
+    [scrollView addSubview:iv];
+    
+    scrollView.contentSize = iv.frame.size;
 }
 
 - (void)didReceiveMemoryWarning

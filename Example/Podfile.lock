@@ -1,28 +1,33 @@
 PODS:
-  - ALWlibwebp (0.1.0):
-    - ALWlibwebp/core (= 0.1.0)
-    - ALWlibwebp/dec (= 0.1.0)
-    - ALWlibwebp/demux (= 0.1.0)
-    - ALWlibwebp/dsp (= 0.1.0)
-    - ALWlibwebp/enc (= 0.1.0)
-    - ALWlibwebp/mux (= 0.1.0)
-    - ALWlibwebp/utils (= 0.1.0)
-    - ALWlibwebp/webp (= 0.1.0)
-  - ALWlibwebp/core (0.1.0):
-    - ALWlibwebp/webp
-  - ALWlibwebp/dec (0.1.0):
-    - ALWlibwebp/core
-  - ALWlibwebp/demux (0.1.0):
-    - ALWlibwebp/core
-  - ALWlibwebp/dsp (0.1.0):
-    - ALWlibwebp/core
-  - ALWlibwebp/enc (0.1.0):
-    - ALWlibwebp/core
-  - ALWlibwebp/mux (0.1.0):
-    - ALWlibwebp/core
-  - ALWlibwebp/utils (0.1.0):
-    - ALWlibwebp/core
-  - ALWlibwebp/webp (0.1.0)
+  - ALWlibwebp (0.1.1):
+    - ALWlibwebp/Decoder (= 0.1.1)
+    - ALWlibwebp/libwebp (= 0.1.1)
+  - ALWlibwebp/Decoder (0.1.1):
+    - ALWlibwebp/libwebp
+  - ALWlibwebp/libwebp (0.1.1):
+    - ALWlibwebp/libwebp/core (= 0.1.1)
+    - ALWlibwebp/libwebp/dec (= 0.1.1)
+    - ALWlibwebp/libwebp/demux (= 0.1.1)
+    - ALWlibwebp/libwebp/dsp (= 0.1.1)
+    - ALWlibwebp/libwebp/enc (= 0.1.1)
+    - ALWlibwebp/libwebp/mux (= 0.1.1)
+    - ALWlibwebp/libwebp/utils (= 0.1.1)
+    - ALWlibwebp/libwebp/webp (= 0.1.1)
+  - ALWlibwebp/libwebp/core (0.1.1):
+    - ALWlibwebp/libwebp/webp
+  - ALWlibwebp/libwebp/dec (0.1.1):
+    - ALWlibwebp/libwebp/core
+  - ALWlibwebp/libwebp/demux (0.1.1):
+    - ALWlibwebp/libwebp/core
+  - ALWlibwebp/libwebp/dsp (0.1.1):
+    - ALWlibwebp/libwebp/core
+  - ALWlibwebp/libwebp/enc (0.1.1):
+    - ALWlibwebp/libwebp/core
+  - ALWlibwebp/libwebp/mux (0.1.1):
+    - ALWlibwebp/libwebp/core
+  - ALWlibwebp/libwebp/utils (0.1.1):
+    - ALWlibwebp/libwebp/core
+  - ALWlibwebp/libwebp/webp (0.1.1)
 
 DEPENDENCIES:
   - ALWlibwebp (from `../`)
@@ -32,7 +37,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  ALWlibwebp: 800cbdc09693aa6236442e8054cbe2391bce0640
+  ALWlibwebp: 611fda7f070233e27d20b8b9ca07da0dd5aea5d5
 
 PODFILE CHECKSUM: 555e702447e12ed1e6693f23adf1f1196486148d
 

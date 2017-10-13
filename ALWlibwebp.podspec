@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'ALWlibwebp'
-  s.version          = '0.1.1'
+  s.version          = '0.1.2'
   s.summary          = 'The libwebp of Google. Version is 0.6.0 .'
 
   s.homepage         = 'https://github.com/ALongWay/ALWlibwebp'
@@ -10,43 +10,50 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '8.0'
 
-  s.compiler_flags = '-D_THREAD_SAFE'
-  s.requires_arc = false
-
-  s.subspec 'webp' do |ss|
-    ss.header_dir = 'webp'
-    ss.source_files = 'ALWlibwebp/Classes/src/webp/*.h'
+  s.subspec 'Decoder' do |ss|
+    ss.source_files = 'ALWlibwebp/Classes/Decoder/*.{h,m}'
+    ss.dependency 'ALWlibwebp/libwebp'
   end
 
-  s.subspec 'core' do |ss|
-    ss.source_files = 'ALWlibwebp/Classes/src/utils/*.{h,c}', 'ALWlibwebp/Classes/src/dsp/*.{h,c}', 'ALWlibwebp/Classes/src/enc/*.{h,c}', 'ALWlibwebp/Classes/src/dec/*.{h,c}'
-    ss.dependency 'ALWlibwebp/webp'
-  end
+  s.subspec 'libwebp' do |webp|
+    webp.compiler_flags = '-D_THREAD_SAFE'
+    webp.requires_arc = false
 
-  s.subspec 'utils' do |ss|
-    ss.dependency 'ALWlibwebp/core'
-  end
+    webp.subspec 'webp' do |ss|
+      ss.header_dir = 'webp'
+      ss.source_files = 'ALWlibwebp/Classes/libwebp/src/webp/*.h'
+    end
 
-  s.subspec 'dsp' do |ss|
-    ss.dependency 'ALWlibwebp/core'
-  end
+    webp.subspec 'core' do |ss|
+      ss.source_files = 'ALWlibwebp/Classes/libwebp/src/utils/*.{h,c}', 'ALWlibwebp/Classes/libwebp/src/dsp/*.{h,c}', 'ALWlibwebp/Classes/libwebp/src/enc/*.{h,c}', 'ALWlibwebp/Classes/libwebp/src/dec/*.{h,c}'
+      ss.dependency 'ALWlibwebp/libwebp/webp'
+    end
 
-  s.subspec 'enc' do |ss|
-    ss.dependency 'ALWlibwebp/core'
-  end
+    webp.subspec 'utils' do |ss|
+      ss.dependency 'ALWlibwebp/libwebp/core'
+    end
 
-  s.subspec 'dec' do |ss|
-    ss.dependency 'ALWlibwebp/core'
-  end
+    webp.subspec 'dsp' do |ss|
+      ss.dependency 'ALWlibwebp/libwebp/core'
+    end
 
-  s.subspec 'demux' do |ss|
-    ss.source_files = 'ALWlibwebp/Classes/src/demux/*.{h,c}'
-    ss.dependency 'ALWlibwebp/core'
-  end
+    webp.subspec 'enc' do |ss|
+      ss.dependency 'ALWlibwebp/libwebp/core'
+    end
 
-  s.subspec 'mux' do |ss|
-    ss.source_files = 'ALWlibwebp/Classes/src/mux/*.{h,c}'
-    ss.dependency 'ALWlibwebp/core'
+    webp.subspec 'dec' do |ss|
+      ss.dependency 'ALWlibwebp/libwebp/core'
+    end
+
+    webp.subspec 'demux' do |ss|
+      ss.source_files = 'ALWlibwebp/Classes/libwebp/src/demux/*.{h,c}'
+      ss.dependency 'ALWlibwebp/libwebp/core'
+    end
+
+    webp.subspec 'mux' do |ss|
+      ss.source_files = 'ALWlibwebp/Classes/libwebp/src/mux/*.{h,c}'
+      ss.dependency 'ALWlibwebp/libwebp/core'
+    end
   end
 
 end

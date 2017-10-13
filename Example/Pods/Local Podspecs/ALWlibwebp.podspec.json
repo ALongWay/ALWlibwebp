@@ -1,6 +1,6 @@
 {
   "name": "ALWlibwebp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "summary": "The libwebp of Google. Version is 0.6.0 .",
   "homepage": "https://github.com/ALongWay/ALWlibwebp",
   "license": {
@@ -12,81 +12,96 @@
   },
   "source": {
     "git": "https://github.com/ALongWay/ALWlibwebp.git",
-    "tag": "0.1.0"
+    "tag": "0.1.1"
   },
   "platforms": {
     "ios": "8.0"
   },
-  "compiler_flags": "-D_THREAD_SAFE",
-  "requires_arc": false,
   "subspecs": [
     {
-      "name": "webp",
-      "source_files": "ALWlibwebp/Classes/src/webp/*.h"
-    },
-    {
-      "name": "core",
-      "source_files": [
-        "ALWlibwebp/Classes/src/utils/*.{h,c}",
-        "ALWlibwebp/Classes/src/dsp/*.{h,c}",
-        "ALWlibwebp/Classes/src/enc/*.{h,c}",
-        "ALWlibwebp/Classes/src/dec/*.{h,c}"
-      ],
+      "name": "Decoder",
+      "source_files": "ALWlibwebp/Classes/Decoder/*.{h,m}",
       "dependencies": {
-        "ALWlibwebp/webp": [
+        "ALWlibwebp/libwebp": [
 
         ]
       }
     },
     {
-      "name": "utils",
-      "dependencies": {
-        "ALWlibwebp/core": [
+      "name": "libwebp",
+      "compiler_flags": "-D_THREAD_SAFE",
+      "requires_arc": false,
+      "subspecs": [
+        {
+          "name": "webp",
+          "header_dir": "webp",
+          "source_files": "ALWlibwebp/Classes/libwebp/src/webp/*.h"
+        },
+        {
+          "name": "core",
+          "source_files": [
+            "ALWlibwebp/Classes/libwebp/src/utils/*.{h,c}",
+            "ALWlibwebp/Classes/libwebp/src/dsp/*.{h,c}",
+            "ALWlibwebp/Classes/libwebp/src/enc/*.{h,c}",
+            "ALWlibwebp/Classes/libwebp/src/dec/*.{h,c}"
+          ],
+          "dependencies": {
+            "ALWlibwebp/libwebp/webp": [
 
-        ]
-      }
-    },
-    {
-      "name": "dsp",
-      "dependencies": {
-        "ALWlibwebp/core": [
+            ]
+          }
+        },
+        {
+          "name": "utils",
+          "dependencies": {
+            "ALWlibwebp/libwebp/core": [
 
-        ]
-      }
-    },
-    {
-      "name": "enc",
-      "dependencies": {
-        "ALWlibwebp/core": [
+            ]
+          }
+        },
+        {
+          "name": "dsp",
+          "dependencies": {
+            "ALWlibwebp/libwebp/core": [
 
-        ]
-      }
-    },
-    {
-      "name": "dec",
-      "dependencies": {
-        "ALWlibwebp/core": [
+            ]
+          }
+        },
+        {
+          "name": "enc",
+          "dependencies": {
+            "ALWlibwebp/libwebp/core": [
 
-        ]
-      }
-    },
-    {
-      "name": "demux",
-      "source_files": "ALWlibwebp/Classes/src/demux/*.{h,c}",
-      "dependencies": {
-        "ALWlibwebp/core": [
+            ]
+          }
+        },
+        {
+          "name": "dec",
+          "dependencies": {
+            "ALWlibwebp/libwebp/core": [
 
-        ]
-      }
-    },
-    {
-      "name": "mux",
-      "source_files": "ALWlibwebp/Classes/src/mux/*.{h,c}",
-      "dependencies": {
-        "ALWlibwebp/core": [
+            ]
+          }
+        },
+        {
+          "name": "demux",
+          "source_files": "ALWlibwebp/Classes/libwebp/src/demux/*.{h,c}",
+          "dependencies": {
+            "ALWlibwebp/libwebp/core": [
 
-        ]
-      }
+            ]
+          }
+        },
+        {
+          "name": "mux",
+          "source_files": "ALWlibwebp/Classes/libwebp/src/mux/*.{h,c}",
+          "dependencies": {
+            "ALWlibwebp/libwebp/core": [
+
+            ]
+          }
+        }
+      ]
     }
   ]
 }
