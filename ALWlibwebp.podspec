@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'ALWlibwebp'
-  s.version          = '0.1.3'
+  s.version          = '0.1.4'
   s.summary          = 'The libwebp of Google. Version is 0.6.0 .'
 
   s.homepage         = 'https://github.com/ALongWay/ALWlibwebp'
